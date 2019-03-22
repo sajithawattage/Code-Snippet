@@ -1,0 +1,30 @@
+    <div class="col-md-4">
+        <button id="btnDownload">Download by Ajax</button>
+    </div>
+
+    <script type="text/javascript">
+
+        $('#btnDownload').click(function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '@Url.Action("DownloadFile", "Home")', true);
+
+            //respose type represent the 
+            xhr.responseType = 'arraybuffer';
+            xhr.onload = function (e) {
+                //request has done his part. Now it's time to handle the post request business logics
+                if (this.status == 200) {
+                    var blob = new Blob([this.response], { type: "application/pdf" });
+
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = "report_name.pdf";
+                    link.click();
+
+                    ///send your email
+                    alert("after success");
+                }
+            };
+            xhr.send();
+        });
+        
+    </script>
